@@ -20,11 +20,11 @@ class KafkaProducerSingleton:
         return KafkaProducerSingleton.__instance
 
 
-def produce(key_id, document=None):
+def produce(key_id, document=None, meta=None):
     producer = KafkaProducerSingleton.get_instance()
     key = key_id.encode("utf-8")
 
-    value = {"service": "analysis", "data": document, "meta": {}}
+    value = {"service": "csvdetective", "value": document, "meta": meta}
 
-    producer.send("analysis", value=value, key=key)
+    producer.send("resource.analysed", value=value, key=key)
     producer.flush()

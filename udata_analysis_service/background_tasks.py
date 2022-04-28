@@ -1,13 +1,10 @@
 import logging
 import os
-import tempfile
 
-import boto3
 from celery import Celery
-import requests
-
 from dotenv import load_dotenv
 
+from csv_detective.explore_csv import routine
 from udata_analysis_service.producer import produce
 
 load_dotenv()
@@ -17,24 +14,22 @@ MINIO_FOLDER = os.environ.get("MINIO_FOLDER", "folder")
 celery = Celery("tasks", broker=BROKER_URL)
 
 
-def download_resource(url):
-    tmp_file = tempfile.NamedTemporaryFile(delete=False)
-    with requests.get(url, stream=True) as r:
-        r.raise_for_status()
-        for chunk in r.iter_content(chunk_size=1024):
-            tmp_file.write(chunk)
-    tmp_file.close()
-    return tmp_file
-
-
-def get_resource_minio_url(key, resource):
-    '''Returns location of given resource in minio once it is saved'''
-    return os.getenv("MINIO_URL") + os.getenv("MINIO_BUCKET") + "/" + MINIO_FOLDER + "/" + key + "/" + resource["id"]
-
-
 @celery.task
-def manage_resource(key, resource):
-    # TODO: Implement manage_resource
+def manage_resource(dataset_id: str, resource_id: str, resource_location: dict, minio_user: str, minio_pwd: str) -> None:
     logging.info(
-        "Processing task for resource {} in dataset {}".format(resource["id"], key)
+        "Processing task for resource {} in dataset {}".format(resource_id, dataset_id)
     )
+    analysis_report = routine(
+        minio_url=resource_location["netloc"],
+        minio_user=minio_user,
+        minio_pwd=minio_pwd,
+        minio_bucket=resource_location["bucket"],
+        minio_key=resource_location["key"],
+        num_rows=50,
+        user_input_tests="ALL",
+        output_mode="LIMITED",
+        save_results=False,
+        upload_results=True,
+        save_tableschema=True
+    )
+    produce(resource_id, analysis_report, meta={"dataset_id": dataset_id})
