@@ -20,7 +20,7 @@ class KafkaProducerSingleton:
         return KafkaProducerSingleton.__instance
 
 
-def produce(key_id, document=None, meta=None):
+def produce(key_id: str, document: dict = None, meta: dict = None) -> None:
     producer = KafkaProducerSingleton.get_instance()
     key = key_id.encode("utf-8")
 

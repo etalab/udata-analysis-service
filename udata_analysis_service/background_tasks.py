@@ -15,7 +15,13 @@ celery = Celery("tasks", broker=BROKER_URL)
 
 
 @celery.task
-def manage_resource(dataset_id: str, resource_id: str, resource_location: dict, minio_user: str, minio_pwd: str) -> None:
+def manage_resource(
+    dataset_id: str,
+    resource_id: str,
+    resource_location: dict,
+    minio_user: str,
+    minio_pwd: str,
+) -> None:
     logging.info(
         "Processing task for resource {} in dataset {}".format(resource_id, dataset_id)
     )
@@ -30,6 +36,6 @@ def manage_resource(dataset_id: str, resource_id: str, resource_location: dict, 
         output_mode="LIMITED",
         save_results=False,
         upload_results=True,
-        save_tableschema=True
+        save_tableschema=True,
     )
     produce(resource_id, analysis_report, meta={"dataset_id": dataset_id})
