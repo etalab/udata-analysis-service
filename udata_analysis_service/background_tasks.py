@@ -23,9 +23,11 @@ def manage_resource(
     minio_pwd: str,
 ) -> None:
     logging.info(
-        "Processing task for resource {} in dataset {}".format(resource_id, dataset_id)
+        "Processing task for resource {} in dataset {}".format(
+            resource_id, dataset_id
+        )
     )
-    analysis_report = routine(
+    routine(
         minio_url=resource_location["netloc"],
         minio_user=minio_user,
         minio_pwd=minio_pwd,
@@ -38,4 +40,9 @@ def manage_resource(
         upload_results=True,
         save_tableschema=True,
     )
-    produce(resource_id, analysis_report, meta={"dataset_id": dataset_id})
+    report_location = {
+        "minio_url": resource_location["netloc"],
+        "minio_bucket": resource_location["bucket"],
+        "minio_key": resource_location["key"],
+    }
+    produce(resource_id, report_location, meta={"dataset_id": dataset_id})
