@@ -9,6 +9,9 @@ from udata_analysis_service.producer import produce
 
 load_dotenv()
 
+ROWS_TO_ANALYSE_PER_FILE = int(
+    os.environ.get("ROWS_TO_ANALYSE_PER_FILE", "500")
+)
 BROKER_URL = os.environ.get("BROKER_URL", "redis://localhost:6381/0")
 celery = Celery("tasks", broker=BROKER_URL)
 
@@ -32,7 +35,7 @@ def manage_resource(
         minio_pwd=minio_pwd,
         minio_bucket=resource_location["bucket"],
         minio_key=resource_location["key"],
-        num_rows=50,
+        num_rows=ROWS_TO_ANALYSE_PER_FILE,
         user_input_tests="ALL",
         output_mode="LIMITED",
         save_results=False,
