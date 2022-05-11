@@ -1,6 +1,8 @@
 import logging
 import os
 
+import boto3
+from botocore.client import Config, ClientError
 from celery import Celery
 from dotenv import load_dotenv
 
@@ -29,22 +31,59 @@ def manage_resource(
             resource_id, dataset_id
         )
     )
+
+    # Ensure credentials are correct and bucket exists
+    s3_client = boto3.client(
+        "s3",
+        endpoint_url=resource_location["netloc"],
+        aws_access_key_id=minio_user,
+        aws_secret_access_key=minio_pwd,
+        config=Config(signature_version="s3v4"),
+    )
+    try:
+        s3_client.head_bucket(Bucket=resource_location["bucket"])
+    except ClientError as e:
+        logging.error(e)
+        logging.error(
+            "Bucket {} does not exist or credentials are invalid".format(
+                resource_location["bucket"]
+            )
+        )
+        return
+
+    resource_key = resource_location["key"]
+    csv_minio_location = {
+        "url": resource_location["netloc"],
+        "bucket": resource_location["bucket"],
+        "key": resource_key,
+    }
+    output_key = (
+        resource_key.replace(".csv", ".json")
+        if resource_key.endswith(".csv")
+        else f"{resource_key}.json"
+    )
+    output_minio_location = {
+        "url": resource_location["netloc"],
+        "bucket": resource_location["bucket"],
+        "key": output_key,
+    }
+    tableschema_minio_location = {
+        "url": resource_location["netloc"],
+        "bucket": "tableschema",
+        "key": os.path.splitext(resource_key)[0],
+    }
+
     routine(
-        minio_url=resource_location["netloc"],
+        csv_minio_location=csv_minio_location,
         minio_user=minio_user,
         minio_pwd=minio_pwd,
-        minio_bucket=resource_location["bucket"],
-        minio_key=resource_location["key"],
         num_rows=ROWS_TO_ANALYSE_PER_FILE,
         user_input_tests="ALL",
         output_mode="LIMITED",
         save_results=False,
-        upload_results=True,
-        save_tableschema=True,
+        output_minio_location=output_minio_location,
+        tableschema_minio_location=tableschema_minio_location,
     )
-    report_location = {
-        "minio_url": resource_location["netloc"],
-        "minio_bucket": resource_location["bucket"],
-        "minio_key": resource_location["key"],
-    }
-    produce(resource_id, report_location, meta={"dataset_id": dataset_id})
+    produce(
+        resource_id, output_minio_location, meta={"dataset_id": dataset_id}
+    )
