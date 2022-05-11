@@ -10,7 +10,6 @@ from udata_analysis_service.producer import produce
 load_dotenv()
 
 BROKER_URL = os.environ.get("BROKER_URL", "redis://localhost:6381/0")
-MINIO_FOLDER = os.environ.get("MINIO_FOLDER", "folder")
 celery = Celery("tasks", broker=BROKER_URL)
 
 
