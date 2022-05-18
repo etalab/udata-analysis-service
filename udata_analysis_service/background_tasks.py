@@ -6,7 +6,7 @@ from botocore.client import Config, ClientError
 from celery import Celery
 from dotenv import load_dotenv
 
-from csv_detective.explore_csv import routine
+from csv_detective.explore_csv import routine_minio
 from udata_analysis_service.producer import produce
 
 load_dotenv()
@@ -57,32 +57,30 @@ def manage_resource(
         "bucket": resource_location["bucket"],
         "key": resource_key,
     }
-    output_key = (
-        resource_key.replace(".csv", ".json")
-        if resource_key.endswith(".csv")
-        else f"{resource_key}.json"
-    )
     output_minio_location = {
         "url": resource_location["netloc"],
-        "bucket": resource_location["bucket"],
-        "key": output_key,
+        "bucket": os.environ["CSV_DETECTIVE_REPORT_BUCKET"],
+        "key": os.path.join(
+            os.environ["CSV_DETECTIVE_REPORT_FOLDER"], dataset_id, resource_id
+        )
+        + ".json",
     }
     tableschema_minio_location = {
         "url": resource_location["netloc"],
-        "bucket": "tableschema",
-        "key": os.path.splitext(resource_key)[0],
+        "bucket": os.environ["TABLESCHEMA_BUCKET"],
+        "key": os.path.join(
+            os.environ["CSV_DETECTIVE_REPORT_FOLDER"], dataset_id, resource_id
+        ),
     }
 
-    routine(
+    routine_minio(
         csv_minio_location=csv_minio_location,
+        output_minio_location=output_minio_location,
+        tableschema_minio_location=tableschema_minio_location,
         minio_user=minio_user,
         minio_pwd=minio_pwd,
         num_rows=ROWS_TO_ANALYSE_PER_FILE,
         user_input_tests="ALL",
-        output_mode="LIMITED",
-        save_results=False,
-        output_minio_location=output_minio_location,
-        tableschema_minio_location=tableschema_minio_location,
     )
     produce(
         resource_id, output_minio_location, meta={"dataset_id": dataset_id}

@@ -22,9 +22,12 @@ KAFKA_PORT = 9092
 KAFKA_API_VERSION = 2.5.0
 MINIO_URL = https://object.local.dev/
 MINIO_USER = sample_user
-MINIO_BUCKET = sample_bucket
 MINIO_PWD = sample_pwd
-MINIO_FOLDER = forlder
+ROWS_TO_ANALYSE_PER_FILE=500
+CSV_DETECTIVE_REPORT_BUCKET = benchmark-de
+CSV_DETECTIVE_REPORT_FOLDER = report
+TABLESCHEMA_BUCKET = benchmark-de
+TABLESCHEMA_FOLDER = schemas
 ```
 
 ## Usage
