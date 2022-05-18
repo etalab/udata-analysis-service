@@ -7,7 +7,7 @@ from celery import Celery
 from dotenv import load_dotenv
 
 from csv_detective.explore_csv import routine_minio
-from udata_analysis_service.producer import produce
+from udata_event_service.producer import produce
 
 load_dotenv()
 
@@ -83,5 +83,9 @@ def manage_resource(
         user_input_tests="ALL",
     )
     produce(
-        resource_id, output_minio_location, meta={"dataset_id": dataset_id}
+        "resource.analysed",
+        service="csvdetective",
+        key_id=resource_id,
+        document=output_minio_location,
+        meta={"dataset_id": dataset_id},
     )
