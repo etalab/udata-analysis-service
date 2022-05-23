@@ -4,8 +4,7 @@ import os
 from udata_analysis_service.background_tasks import manage_resource
 
 
-def process_message(message: dict) -> None:
-    resource_id = message.key.decode("utf-8")
+def process_message(resource_id: str, message: dict) -> None:
     logging.info(f"New message detected, checking resource {resource_id}")
 
     dataset_id = message["meta"]["dataset_id"]

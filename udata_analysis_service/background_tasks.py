@@ -83,6 +83,7 @@ def manage_resource(
         user_input_tests="ALL",
     )
     produce(
+        f"{os.environ['KAFKA_HOST']}:{os.environ['KAFKA_PORT']}",
         "resource.analysed",
         service="csvdetective",
         key_id=resource_id,

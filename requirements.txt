@@ -7,4 +7,4 @@ python-dotenv==0.19.2
 redis==4.1.4
 requests==2.27.1
 celery==5.2.3
-udata_event_service==0.0.3
+udata_event_service==0.0.6
