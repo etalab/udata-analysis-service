@@ -69,7 +69,9 @@ def manage_resource(
         "url": resource_location["netloc"],
         "bucket": os.environ["TABLESCHEMA_BUCKET"],
         "key": os.path.join(
-            os.environ["CSV_DETECTIVE_REPORT_FOLDER"], dataset_id, resource_id
+            os.environ["TABLESCHEMA_FOLDER"],
+            dataset_id,
+            resource_id,
         ),
     }
 
