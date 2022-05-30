@@ -1,0 +1,26 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "udata-analysis-service"
+authors = [{name = "Sixte de Maupeou", email = "sixte.de-maupeou@data.gouv.fr"}]
+readme = "README.md"
+dynamic = ["version", "description"]
+dependencies = [
+    "boto3==1.21.21",
+    "click==8.0.4",
+    "kafka-python==2.0.2",
+    "redis==4.1.4",
+    "requests==2.27.1",
+    "celery==5.2.3"
+]
+
+[project.urls]
+Home = "https://github.com/sixtedemaupeou/udata-analysis-service"
+
+[tool.flit.module]
+name = "udata_analysis_service"
+
+[project.scripts]
+ udata-analysis-service = "udata_analysis_service.cli:cli"
