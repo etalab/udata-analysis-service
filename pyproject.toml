@@ -9,11 +9,14 @@ readme = "README.md"
 dynamic = ["version", "description"]
 dependencies = [
     "boto3==1.21.21",
+    "celery==5.2.3",
     "click==8.0.4",
+    "csv-detective==0.4.3",
     "kafka-python==2.0.2",
+    "python-dotenv==0.19.2",
     "redis==4.1.4",
     "requests==2.27.1",
-    "celery==5.2.3"
+    "udata_event_service==0.0.7"
 ]
 
 [project.urls]
