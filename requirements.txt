@@ -1,5 +1,6 @@
 boto3==1.21.21
 click==8.0.4
+csv-detective==0.4.3
 flake8==4.0.1
 kafka-python==2.0.2
 pytest==7.1.1
