@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 from csv_detective.explore_csv import routine_minio
 from udata_event_service.producer import produce
+from udata_analysis_service.utils.kafka import get_topic
 
 load_dotenv()
 
@@ -86,7 +87,7 @@ def manage_resource(
     )
     produce(
         f"{os.environ['KAFKA_HOST']}:{os.environ['KAFKA_PORT']}",
-        "resource.analysed",
+        get_topic("resource.analysed"),
         service="csvdetective",
         key_id=resource_id,
         document=output_minio_location,
