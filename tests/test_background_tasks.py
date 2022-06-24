@@ -1,5 +1,4 @@
 import os
-from unittest import mock
 
 import csv_detective
 import pytest

@@ -19,7 +19,9 @@ dependencies = [
     "python-dotenv==0.19.2",
     "redis==4.1.4",
     "requests==2.27.1",
-    "udata_event_service==0.0.8"
+    "udata_event_service==0.0.8",
+    "pytest-mock==3.7.0",
+    "pytest-asyncio==0.18.3"
 ]
 
 [project.urls]
