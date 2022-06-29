@@ -26,7 +26,7 @@ def consume() -> None:
     consume_kafka(
         f"{os.environ['KAFKA_HOST']}:{os.environ['KAFKA_PORT']}",
         group_id=None,
-        topics=get_topic("resource.stored"),
+        topics=[get_topic("resource.stored")],
         message_processing_func=process_message,
     )
 
