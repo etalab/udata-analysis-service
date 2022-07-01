@@ -36,9 +36,11 @@ async def test_manage_resource_send_produce_message(mocker):
         service='csvdetective',
         key_id='resource_id',
         document={
-            'url': 'netloc',
-            'bucket': 'detective-bucket',
-            'key': 'report/dataset_id/resource_id.json'
+            'location': {
+                'url': 'netloc',
+                'bucket': 'detective-bucket',
+                'key': 'report/dataset_id/resource_id.json'
+            }
         },
-        meta={'dataset_id': 'dataset_id'},
+        meta={'dataset_id': 'dataset_id', 'message_type': 'resource.analysed'},
     )
