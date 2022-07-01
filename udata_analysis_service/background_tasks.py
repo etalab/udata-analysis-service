@@ -90,6 +90,6 @@ def manage_resource(
         get_topic("resource.analysed"),
         service="csvdetective",
         key_id=resource_id,
-        document=output_minio_location,
-        meta={"dataset_id": dataset_id},
+        document={"location": output_minio_location},
+        meta={"dataset_id": dataset_id, "message_type": "resource.analysed"},
     )
