@@ -23,7 +23,7 @@ celery = Celery("tasks", broker=BROKER_URL)
 def manage_resource(
     dataset_id: str,
     resource_id: str,
-    resource_location: dict,
+    resource_details: dict,
     minio_user: str,
     minio_pwd: str,
 ) -> None:
@@ -33,6 +33,7 @@ def manage_resource(
         )
     )
 
+    resource_location = resource_details["location"]
     # Ensure credentials are correct and bucket exists
     s3_client = boto3.client(
         "s3",
@@ -84,12 +85,18 @@ def manage_resource(
         minio_pwd=minio_pwd,
         num_rows=ROWS_TO_ANALYSE_PER_FILE,
         user_input_tests="ALL",
+        encoding=resource_details["encoding"],
+        sep=resource_details["delimiter"],
     )
     produce(
         f"{os.environ['KAFKA_HOST']}:{os.environ['KAFKA_PORT']}",
         get_topic("resource.analysed"),
         service="csvdetective",
         key_id=resource_id,
-        document={"location": output_minio_location},
+        document={
+            "location": output_minio_location,
+            "encoding": resource_details["encoding"],
+            "delimiter": resource_details["delimiter"],
+        },
         meta={"dataset_id": dataset_id, "message_type": "resource.analysed"},
     )
