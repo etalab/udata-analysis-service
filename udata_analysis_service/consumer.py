@@ -13,7 +13,7 @@ def process_message(resource_id: str, message: dict, topic: str) -> None:
     manage_resource.delay(
         dataset_id,
         resource_id,
-        message["value"]["location"],
+        message["value"],
         minio_user=os.environ["MINIO_USER"],
         minio_pwd=os.environ["MINIO_PWD"],
     )
