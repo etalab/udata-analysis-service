@@ -45,12 +45,12 @@ async def test_manage_resource_send_produce_message(mocker):
         service="csvdetective",
         key_id="resource_id",
         document={
-            "csv_location": {
+            "data_location": {
                 "url": "netloc",
                 "bucket": "bucket",
                 "key": "key",
             },
-            "location": {
+            "report_location": {
                 "url": "netloc",
                 "bucket": "detective-bucket",
                 "key": "report/dataset_id/resource_id.json",

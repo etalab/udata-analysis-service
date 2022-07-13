@@ -94,8 +94,8 @@ def manage_resource(
         service="csvdetective",
         key_id=resource_id,
         document={
-            "csv_location": csv_minio_location,
-            "location": output_minio_location,
+            "data_location": csv_minio_location,
+            "report_location": output_minio_location,
             "tableschema_location": tableschema_minio_location,
             "encoding": resource_details["encoding"],
             "delimiter": resource_details["delimiter"],
