@@ -49,7 +49,7 @@ async def test_manage_resource_send_produce_message(mocker):
                 "url": "netloc",
                 "bucket": "bucket",
                 "key": "key",
-            }
+            },
             "location": {
                 "url": "netloc",
                 "bucket": "detective-bucket",
