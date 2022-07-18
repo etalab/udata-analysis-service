@@ -22,11 +22,14 @@ def cli() -> None:
 def consume() -> None:
     """Launch Kafka consumer loop"""
     load_dotenv()
+    topics = get_topic("resource.stored")
+
     logging.basicConfig(level=logging.INFO)
+    logging.info(f"Starting Kafka consumer for topics {topics}")
     consume_kafka(
         f"{os.environ['KAFKA_HOST']}:{os.environ['KAFKA_PORT']}",
         group_id=None,
-        topics=get_topic("resource.stored"),
+        topics=topics,
         message_processing_func=process_message,
     )
 
