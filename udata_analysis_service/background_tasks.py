@@ -27,7 +27,7 @@ def manage_resource(
     minio_user: str,
     minio_pwd: str,
 ) -> None:
-    logging.info(
+    logging.debug(
         "Processing task for resource {} in dataset {}".format(
             resource_id, dataset_id
         )
