@@ -46,17 +46,17 @@ async def test_manage_resource_send_produce_message(mocker):
         key_id="resource_id",
         document={
             "data_location": {
-                "url": "netloc",
+                "netloc": "netloc",
                 "bucket": "bucket",
                 "key": "key",
             },
             "report_location": {
-                "url": "netloc",
+                "netloc": "netloc",
                 "bucket": "detective-bucket",
                 "key": "report/dataset_id/resource_id.json",
             },
             "tableschema_location": {
-                "url": "netloc",
+                "netloc": "netloc",
                 "bucket": "tableschema-bucket",
                 "key": "tableschema-folder/dataset_id/resource_id",
             },
