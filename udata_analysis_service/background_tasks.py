@@ -33,7 +33,7 @@ def manage_resource(
         )
     )
 
-    resource_location = resource_details["location"]
+    resource_location = resource_details["data_location"]
     # Ensure credentials are correct and bucket exists
     s3_client = boto3.client(
         "s3",
