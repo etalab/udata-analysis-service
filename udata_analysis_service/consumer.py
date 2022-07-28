@@ -3,9 +3,11 @@ import os
 
 from udata_analysis_service.background_tasks import manage_resource
 
+logger = logging.getLogger("analysis-service")
+
 
 def process_message(resource_id: str, message: dict, topic: str) -> None:
-    logging.info(
+    logger.info(
         f"New message detected, topic {topic}, checking resource {resource_id}"
     )
 
