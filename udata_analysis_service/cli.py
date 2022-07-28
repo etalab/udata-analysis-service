@@ -9,6 +9,9 @@ from udata_event_service.consumer import consume_kafka
 from udata_analysis_service.consumer import process_message
 from udata_analysis_service.utils.kafka import get_topic
 
+logger = logging.getLogger("analysis-service")
+logging.basicConfig(level=os.getenv("LOGLEVEL", logging.INFO))
+
 
 @click.group()
 @click.version_option()
@@ -23,9 +26,7 @@ def consume() -> None:
     """Launch Kafka consumer loop"""
     load_dotenv()
     topics = get_topic("resource.stored")
-
-    logging.basicConfig(level=logging.INFO)
-    logging.info(f"Starting Kafka consumer for topics {topics}")
+    logger.info(f"Starting Kafka consumer for topics {topics}")
     consume_kafka(
         f"{os.environ['KAFKA_HOST']}:{os.environ['KAFKA_PORT']}",
         group_id=None,
