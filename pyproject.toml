@@ -11,7 +11,7 @@ dependencies = [
     "boto3==1.21.21",
     "celery==5.2.3",
     "click==8.0.4",
-    "csv-detective==0.4.4",
+    "csv-detective==0.4.5",
     "flake8==4.0.1",
     "flit==3.6.0",
     "kafka-python==2.0.2",

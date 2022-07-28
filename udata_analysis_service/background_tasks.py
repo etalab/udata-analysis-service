@@ -33,7 +33,7 @@ def manage_resource(
         )
     )
 
-    resource_location = resource_details["location"]
+    resource_location = resource_details["data_location"]
     # Ensure credentials are correct and bucket exists
     s3_client = boto3.client(
         "s3",
@@ -55,12 +55,12 @@ def manage_resource(
 
     resource_key = resource_location["key"]
     csv_minio_location = {
-        "url": resource_location["netloc"],
+        "netloc": resource_location["netloc"],
         "bucket": resource_location["bucket"],
         "key": resource_key,
     }
     output_minio_location = {
-        "url": resource_location["netloc"],
+        "netloc": resource_location["netloc"],
         "bucket": os.environ["CSV_DETECTIVE_REPORT_BUCKET"],
         "key": os.path.join(
             os.environ["CSV_DETECTIVE_REPORT_FOLDER"], dataset_id, resource_id
@@ -68,7 +68,7 @@ def manage_resource(
         + ".json",
     }
     tableschema_minio_location = {
-        "url": resource_location["netloc"],
+        "netloc": resource_location["netloc"],
         "bucket": os.environ["TABLESCHEMA_BUCKET"],
         "key": os.path.join(
             os.environ["TABLESCHEMA_FOLDER"],
