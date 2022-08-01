@@ -44,3 +44,7 @@ Start the Celery worker:
 ```shell
 udata-analysis-service work
 ```
+
+### Logging & Debugging
+The log level can be adjusted using the environment variable LOGLEVEL.
+For example, to set the log level to `DEBUG` when consuming Kafka messages, use `LOGLEVEL="DEBUG" udata-analysis-service consume`.

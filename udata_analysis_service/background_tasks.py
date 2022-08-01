@@ -11,6 +11,7 @@ from udata_event_service.producer import produce
 from udata_analysis_service.utils.kafka import get_topic
 
 load_dotenv()
+logger = logging.getLogger("analysis-service")
 
 ROWS_TO_ANALYSE_PER_FILE = int(
     os.environ.get("ROWS_TO_ANALYSE_PER_FILE", "500")
@@ -27,7 +28,7 @@ def manage_resource(
     minio_user: str,
     minio_pwd: str,
 ) -> None:
-    logging.debug(
+    logger.debug(
         "Processing task for resource {} in dataset {}".format(
             resource_id, dataset_id
         )
@@ -45,8 +46,8 @@ def manage_resource(
     try:
         s3_client.head_bucket(Bucket=resource_location["bucket"])
     except ClientError as e:
-        logging.error(e)
-        logging.error(
+        logger.error(e)
+        logger.error(
             "Bucket {} does not exist or credentials are invalid".format(
                 resource_location["bucket"]
             )
