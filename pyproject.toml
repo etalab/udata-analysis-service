@@ -24,6 +24,9 @@ pytest = "~7.1.2"
 pytest-asyncio = "~0.19.0"
 pytest-mock = "~3.8.2"
 
+[tool.poetry.scripts]
+udata-analysis-service = "udata_analysis_service.cli:cli"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
