@@ -2,7 +2,7 @@
 name = "udata-analysis-service"
 version = "0.0.1.dev"
 description = ""
-authors = ["Opendatateam <opendatateam@data.gouv.fr>"]
+authors = ["Etalab"]
 license = "MIT"
 
 [tool.poetry.dependencies]
