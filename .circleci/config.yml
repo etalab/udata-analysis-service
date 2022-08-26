@@ -7,7 +7,7 @@ parameters:
     default: "3.9"
   python-module:
     type: string
-    default: "csvapi"
+    default: "udata_analysis_service"
   publish-branch:
     type: string
     default: "main"
