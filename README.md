@@ -1,5 +1,7 @@
 # udata-analysis-service
 
+**⚠️ This repository is archived following the use of Webhooks instead of Kafka in udata.**
+
 This service's purpose is to analyse udata datalake files to enrich the metadata, starting with CSVs.
 It uses csv-detective to detect the type and format of CSV columns by checking both headers and contents.
 
